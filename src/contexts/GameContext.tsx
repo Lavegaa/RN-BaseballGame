@@ -15,8 +15,7 @@ type GameState = {
 
 const GameStateContext = createContext<GameState | undefined>(undefined);
 
-type Action = { type: "CEHCK"; value: number } | { type: "RESET" };
-
+type Action = { type: "CHECK"; value: number[] } | { type: "RESET" };
 type GameDispatch = Dispatch<Action>;
 const GameDispatchContext = createContext<GameDispatch | undefined>(undefined);
 
@@ -31,19 +30,15 @@ const generateTarget = (): number[] => {
 
 function gameReducer(state: GameState, action: Action): GameState {
   switch (action.type) {
-    case "CEHCK": {
-      const arrValue = action.value
-        .toString()
-        .split("")
-        .map(val => parseInt(val));
+    case "CHECK": {
       let strikeContext = 0;
       let ballContext = 0;
       state.target.forEach((val, index) => {
-        if (val === arrValue[index]) {
+        if (val === action.value[index]) {
           strikeContext++;
         } else if (
-          val === arrValue[(index + 1) % 3] ||
-          val === arrValue[(index + 2) % 3]
+          val === action.value[(index + 1) % 3] ||
+          val === action.value[(index + 2) % 3]
         ) {
           ballContext++;
         }
@@ -54,10 +49,13 @@ function gameReducer(state: GameState, action: Action): GameState {
           correct: true
         };
       } else {
+        const mystring = parseInt(
+          action.value.map(val => val.toString()).join("")
+        );
         return {
           ...state,
           game: state.game.concat({
-            value: action.value,
+            value: mystring,
             strike: strikeContext,
             ball: ballContext
           }),
