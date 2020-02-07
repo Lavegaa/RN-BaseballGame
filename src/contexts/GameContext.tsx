@@ -31,19 +31,19 @@ const generateTarget = (): number[] => {
 function gameReducer(state: GameState, action: Action): GameState {
   switch (action.type) {
     case "CHECK": {
-      let strikeContext = 0;
-      let ballContext = 0;
+      let strikeCount = 0;
+      let ballCount = 0;
       state.target.forEach((val, index) => {
-        if (val === action.value[index]) {
-          strikeContext++;
+        if (val[0] === action.value[index]) {
+          strikeCount++;
         } else if (
-          val === action.value[(index + 1) % 3] ||
-          val === action.value[(index + 2) % 3]
+          val[0] === action.value[(index + 1) % 3] ||
+          val[0] === action.value[(index + 2) % 3]
         ) {
-          ballContext++;
+          ballCount++;
         }
       });
-      if (strikeContext === 3) {
+      if (strikeCount === 3) {
         return {
           ...state,
           correct: true
@@ -56,8 +56,8 @@ function gameReducer(state: GameState, action: Action): GameState {
           ...state,
           game: state.game.concat({
             value: mystring,
-            strike: strikeContext,
-            ball: ballContext
+            strike: strikeCount,
+            ball: ballCount
           }),
           turn: state.turn++,
           correct: false

@@ -11,6 +11,8 @@ export default function Input({
   return (
     <TextInput
       style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+      returnKeyType={"go"}
+      keyboardType={"numeric"}
       onChangeText={text => setValue(text)}
       value={value}
     />

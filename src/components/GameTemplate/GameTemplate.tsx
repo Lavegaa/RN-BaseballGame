@@ -12,7 +12,7 @@ export default function GameTemplate() {
       <View style={styles.container}>
         <Input value={value} setValue={setValue} />
         <NumberList />
-        <Submit value={value} />
+        <Submit value={value} setValue={setValue} />
       </View>
     </GameContextProvider>
   );
