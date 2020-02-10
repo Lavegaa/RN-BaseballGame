@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Animated } from "react-native";
 import NumberList from "../NumberList";
 import NumberPad from "../NumberPad";
 import { useGameDispatch } from "../../contexts/GameContext";
@@ -8,7 +8,32 @@ export default function GameTemplate() {
   const [value, setValue] = useState("???");
   const [warning, setWarning] = useState("");
   const dispatch = useGameDispatch();
-
+  const [animatedValue, setanimatedValue] = useState(new Animated.Value(100));
+  const [flexValue, setFlexValue] = useState([4, 3]);
+  const [isModal, setIsModal] = useState(false);
+  const modalPress = () => {
+    if (isModal) {
+      Animated.spring(animatedValue, {
+        toValue: 100,
+        velocity: 3,
+        tension: 2,
+        friction: 8
+      }).start();
+      setIsModal(false);
+      setTimeout(() => {
+        setFlexValue([4, 3]);
+      }, 400);
+    } else {
+      Animated.spring(animatedValue, {
+        toValue: 370,
+        velocity: 3,
+        tension: 2,
+        friction: 8
+      }).start();
+      setIsModal(true);
+      setFlexValue([6, 1]);
+    }
+  };
   const numberPress = (val: string) => {
     if (value === "???") {
       setValue(value.slice(0, -3) + val);
@@ -21,7 +46,7 @@ export default function GameTemplate() {
     if (value !== "???") {
       if (value.length > 0) {
         setValue(value.slice(0, -1));
-        if (value === "") {
+        if (value.length === 1) {
           setValue("???");
         }
       }
@@ -66,23 +91,35 @@ export default function GameTemplate() {
   };
   return (
     <View style={styles.container}>
-      <Text>{value}</Text>
-      {warning === "" || <Text>{warning}</Text>}
-      <NumberList />
-      <NumberPad
-        numberPress={numberPress}
-        backspacePress={backspacePress}
-        submitPress={submitPress}
-      />
+      <View style={[{ flex: 1, justifyContent: "center" }]}>
+        <Text style={styles.text}>{value}</Text>
+        {warning === "" || <Text>{warning}</Text>}
+      </View>
+      <View style={[{ flex: flexValue[0] }]}>
+        <NumberList />
+      </View>
+      <View style={[{ flex: flexValue[1] }]}>
+        <NumberPad
+          isModal={isModal}
+          modalPress={modalPress}
+          animatedValue={animatedValue}
+          numberPress={numberPress}
+          backspacePress={backspacePress}
+          submitPress={submitPress}
+        />
+      </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    marginTop: 50,
+    marginTop: 30,
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: "#fff"
+  },
+  text: {
+    fontSize: 40,
+    fontWeight: "bold",
+    alignSelf: "center"
   }
 });
