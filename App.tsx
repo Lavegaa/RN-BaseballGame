@@ -1,7 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import GameTemplate from "./src/components/GameTemplate/index";
+import MainPage from "./src/components/MainPage";
 
 export default function App() {
-  return <GameTemplate />;
+  return <MainPage />;
 }

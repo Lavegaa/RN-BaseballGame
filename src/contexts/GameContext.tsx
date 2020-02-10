@@ -52,13 +52,14 @@ function gameReducer(state: GameState, action: Action): GameState {
         const mystring = parseInt(
           action.value.map(val => val.toString()).join("")
         );
+        state.game.unshift({
+          value: mystring,
+          strike: strikeCount,
+          ball: ballCount
+        });
         return {
           ...state,
-          game: state.game.concat({
-            value: mystring,
-            strike: strikeCount,
-            ball: ballCount
-          }),
+          game: state.game,
           turn: state.turn++,
           correct: false
         };
