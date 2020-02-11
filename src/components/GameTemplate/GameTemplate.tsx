@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, Animated } from "react-native";
+import { useGameDispatch, useGameState } from "../../contexts/GameContext";
 import NumberList from "../NumberList";
 import NumberPad from "../NumberPad";
-import { useGameDispatch } from "../../contexts/GameContext";
+import GameOver from "../GameOver";
 
 export default function GameTemplate() {
   const [value, setValue] = useState("???");
   const [warning, setWarning] = useState("");
-  const dispatch = useGameDispatch();
   const [animatedValue, setanimatedValue] = useState(new Animated.Value(100));
   const [flexValue, setFlexValue] = useState([4, 3]);
   const [isModal, setIsModal] = useState(false);
+  const dispatch = useGameDispatch();
+  const gameState = useGameState();
   const modalPress = () => {
     if (isModal) {
       Animated.spring(animatedValue, {
@@ -89,27 +91,38 @@ export default function GameTemplate() {
       setWarning("숫자를 1~9가 중복되지 않게 입력해주세요.");
     }
   };
-  return (
-    <View style={styles.container}>
-      <View style={[{ flex: 1, justifyContent: "center" }]}>
-        <Text style={styles.text}>{value}</Text>
-        {warning === "" || <Text>{warning}</Text>}
+  if (gameState.correct) {
+    return (
+      <GameOver
+        reset={() => dispatch({ type: "RESET" })}
+        target={gameState.target}
+      />
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <View style={[{ flex: 1, justifyContent: "center" }]}>
+          <Text style={styles.text}>
+            {value}, {gameState.target}
+          </Text>
+          {warning === "" || <Text>{warning}</Text>}
+        </View>
+        <View style={[{ flex: flexValue[0] }]}>
+          <NumberList />
+        </View>
+        <View style={[{ flex: flexValue[1] }]}>
+          <NumberPad
+            isModal={isModal}
+            modalPress={modalPress}
+            animatedValue={animatedValue}
+            numberPress={numberPress}
+            backspacePress={backspacePress}
+            submitPress={submitPress}
+          />
+        </View>
       </View>
-      <View style={[{ flex: flexValue[0] }]}>
-        <NumberList />
-      </View>
-      <View style={[{ flex: flexValue[1] }]}>
-        <NumberPad
-          isModal={isModal}
-          modalPress={modalPress}
-          animatedValue={animatedValue}
-          numberPress={numberPress}
-          backspacePress={backspacePress}
-          submitPress={submitPress}
-        />
-      </View>
-    </View>
-  );
+    );
+  }
 }
 const styles = StyleSheet.create({
   container: {
