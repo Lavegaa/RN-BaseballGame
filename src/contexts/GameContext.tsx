@@ -60,7 +60,7 @@ function gameReducer(state: GameState, action: Action): GameState {
         return {
           ...state,
           game: state.game,
-          turn: state.turn++,
+          turn: state.turn + 1,
           correct: false
         };
       }
@@ -70,7 +70,7 @@ function gameReducer(state: GameState, action: Action): GameState {
         ...state,
         target: generateTarget(),
         game: [],
-        turn: 0,
+        turn: 1,
         correct: false
       };
     default:
@@ -86,7 +86,7 @@ export function GameContextProvider({
   const [games, dispatch] = useReducer(gameReducer, {
     target: generateTarget(),
     game: [],
-    turn: 0,
+    turn: 1,
     correct: false
   });
 

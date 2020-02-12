@@ -96,6 +96,7 @@ export default function GameTemplate() {
       <GameOver
         reset={() => dispatch({ type: "RESET" })}
         target={gameState.target}
+        turn={gameState.turn}
       />
     );
   } else {
@@ -103,7 +104,7 @@ export default function GameTemplate() {
       <View style={styles.container}>
         <View style={[{ flex: 1, justifyContent: "center" }]}>
           <Text style={styles.text}>
-            {value}, {gameState.target}
+            {gameState.turn}회 {value}, {gameState.target}
           </Text>
           {warning === "" || <Text>{warning}</Text>}
         </View>
