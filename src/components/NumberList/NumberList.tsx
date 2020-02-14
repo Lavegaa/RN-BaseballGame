@@ -1,27 +1,32 @@
 import React from "react";
 import { Text, FlatList, View, StyleSheet } from "react-native";
-import { useGameState } from "../../contexts/GameContext";
+import { Game } from "../../contexts/GameContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const Item = ({
+  turn,
   value,
   strike,
   ball
 }: {
+  turn: number;
   value: number;
   strike: number;
   ball: number;
 }) => {
   return (
     <View style={styles.item}>
-      <Text style={styles.text}>{value}</Text>
+      <View style={styles.turnBox}>
+        <Text style={styles.turn}>{turn}회</Text>
+      </View>
+      <Text style={styles.value}>{value}</Text>
       <View>
         <View style={styles.sbBox}>
-          <Text>STRIKE</Text>
+          <Text style={styles.sbText}>STRIKE</Text>
           <Count count={strike} color="#FFBB00" />
         </View>
         <View style={styles.sbBox}>
-          <Text>BALL</Text>
+          <Text style={styles.sbText}>BALL</Text>
           <Count count={ball} color="#1DDB16" />
         </View>
       </View>
@@ -48,14 +53,18 @@ const Count = ({ count, color }: { count: number; color: string }) => {
   );
 };
 
-export default function NumberList() {
-  const gameState = useGameState();
+export default function NumberList({ game }: { game: Game[] }) {
   return (
     <View style={styles.container}>
       <FlatList
-        data={gameState.game}
+        data={game}
         renderItem={({ item }) => (
-          <Item value={item.value} strike={item.strike} ball={item.ball} />
+          <Item
+            turn={item.turn}
+            value={item.value}
+            strike={item.strike}
+            ball={item.ball}
+          />
         )}
         showsVerticalScrollIndicator={false}
       />
@@ -70,7 +79,6 @@ const styles = StyleSheet.create({
   item: {
     marginTop: 15,
     padding: 25,
-    width: "90%",
     height: 68,
     flexDirection: "row",
     borderRadius: 10,
@@ -83,9 +91,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  text: {
-    fontSize: 20,
-    marginEnd: 20
+  turnBox: {
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginEnd: 15,
+    borderEndWidth: 1
+  },
+  turn: {
+    fontSize: 18,
+    marginEnd: 10
+  },
+  value: {
+    paddingStart: 5,
+    paddingEnd: 5,
+    marginEnd: 15,
+    fontSize: 24,
+    fontWeight: "bold"
   },
   count: {
     flexDirection: "row"
@@ -94,5 +116,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center"
+  },
+  sbText: {
+    width: 50
   }
 });

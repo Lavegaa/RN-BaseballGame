@@ -96,7 +96,7 @@ export default function GameTemplate() {
       <GameOver
         reset={() => dispatch({ type: "RESET" })}
         target={gameState.target}
-        turn={gameState.turn}
+        turn={gameState.totalTurn}
       />
     );
   } else {
@@ -104,13 +104,13 @@ export default function GameTemplate() {
       <View style={styles.container}>
         <View style={[{ flex: 1, justifyContent: "center" }]}>
           <Text style={styles.text}>
-            {gameState.turn}회 {"  "}
+            {gameState.totalTurn}회 {"  "}
             {value}, {gameState.target}
           </Text>
           {warning === "" || <Text>{warning}</Text>}
         </View>
         <View style={[{ flex: flexValue[0] }]}>
-          <NumberList />
+          <NumberList game={gameState.game} />
         </View>
         <View style={[{ flex: flexValue[1] }]}>
           <NumberPad

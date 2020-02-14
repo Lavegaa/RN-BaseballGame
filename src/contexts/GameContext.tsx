@@ -1,6 +1,7 @@
 import React, { createContext, Dispatch, useReducer, useContext } from "react";
 
 export type Game = {
+  turn: number;
   value: number;
   strike: number;
   ball: number;
@@ -9,7 +10,7 @@ export type Game = {
 type GameState = {
   target: number[];
   game: Game[];
-  turn: number;
+  totalTurn: number;
   correct: boolean;
 };
 
@@ -52,7 +53,9 @@ function gameReducer(state: GameState, action: Action): GameState {
         const mystring = parseInt(
           action.value.map(val => val.toString()).join("")
         );
+        const myturn = Math.max(0, ...state.game.map(val => val.turn)) + 1;
         state.game.unshift({
+          turn: myturn,
           value: mystring,
           strike: strikeCount,
           ball: ballCount
@@ -60,7 +63,7 @@ function gameReducer(state: GameState, action: Action): GameState {
         return {
           ...state,
           game: state.game,
-          turn: state.turn + 1,
+          totalTurn: state.totalTurn + 1,
           correct: false
         };
       }
@@ -70,7 +73,7 @@ function gameReducer(state: GameState, action: Action): GameState {
         ...state,
         target: generateTarget(),
         game: [],
-        turn: 1,
+        totalTurn: 1,
         correct: false
       };
     default:
@@ -86,7 +89,7 @@ export function GameContextProvider({
   const [games, dispatch] = useReducer(gameReducer, {
     target: generateTarget(),
     game: [],
-    turn: 1,
+    totalTurn: 1,
     correct: false
   });
 
