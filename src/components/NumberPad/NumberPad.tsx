@@ -31,7 +31,11 @@ export default function NumberPad({
       <View style={styles.modal}>
         <TouchableHighlight onPress={modalPress}>
           <View style={[{ alignSelf: "center" }]}>
-            <Entypo size={20} name={isModal ? "chevron-up" : "chevron-down"} />
+            <Entypo
+              size={20}
+              color="#D5D5D5"
+              name={isModal ? "chevron-up" : "chevron-down"}
+            />
           </View>
         </TouchableHighlight>
       </View>
@@ -115,28 +119,35 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     width: "100%",
-    backgroundColor: "#f5f5f5",
     alignItems: "flex-start"
   },
   modal: {
     width: "100%",
     height: 30,
     justifyContent: "center",
+    borderTopColor: "#2A84FC",
     borderTopWidth: 1,
+    borderEndColor: "#2A84FC",
     borderEndWidth: 1,
+    borderStartColor: "#2A84FC",
     borderStartWidth: 1,
+    borderBottomColor: "#D5D5D5",
     borderBottomWidth: 1,
     borderTopStartRadius: 30,
-    borderTopEndRadius: 30
+    borderTopEndRadius: 30,
+    backgroundColor: "white"
   },
   block: {
     flex: 3,
-    flexDirection: "row"
+    flexDirection: "row",
+    backgroundColor: "white"
   },
   numbers: {
     flex: 1,
     alignItems: "center",
+    borderEndColor: "#D5D5D5",
     borderEndWidth: 1,
+    borderBottomColor: "#D5D5D5",
     borderBottomWidth: 1,
     justifyContent: "center"
   },
@@ -144,7 +155,8 @@ const styles = StyleSheet.create({
     borderEndWidth: 0
   },
   numText: {
-    fontSize: 20
+    fontSize: 20,
+    fontWeight: "bold"
   },
   submit: {
     flex: 2,
@@ -155,6 +167,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    borderEndColor: "#D5D5D5",
     borderEndWidth: 1
   }
 });

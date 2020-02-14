@@ -104,7 +104,8 @@ export default function GameTemplate() {
       <View style={styles.container}>
         <View style={[{ flex: 1, justifyContent: "center" }]}>
           <Text style={styles.text}>
-            {gameState.turn}회 {value}, {gameState.target}
+            {gameState.turn}회 {"  "}
+            {value}, {gameState.target}
           </Text>
           {warning === "" || <Text>{warning}</Text>}
         </View>
@@ -127,12 +128,14 @@ export default function GameTemplate() {
 }
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
+    marginTop: 32,
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#2A84FC"
   },
   text: {
-    fontSize: 40,
+    marginTop: 10,
+    color: "white",
+    fontSize: 50,
     fontWeight: "bold",
     alignSelf: "center"
   }
