@@ -94,6 +94,7 @@ export default function GameTemplate() {
   if (gameState.correct) {
     return (
       <GameOver
+        game={gameState.game}
         reset={() => dispatch({ type: "RESET" })}
         target={gameState.target}
         turn={gameState.totalTurn}
