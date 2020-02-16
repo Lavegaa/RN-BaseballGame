@@ -1,4 +1,5 @@
 import React, { createContext, Dispatch, useReducer, useContext } from "react";
+import { AsyncStorage } from "react-native";
 
 export type Game = {
   turn: number;
@@ -12,6 +13,30 @@ type GameState = {
   game: Game[];
   totalTurn: number;
   correct: boolean;
+  bestTurn: number;
+};
+
+const getData = async () => {
+  try {
+    const value: string = await AsyncStorage.getItem("BEST_TURN");
+    if (value !== null) {
+      // We have data!!
+      return parseInt(value);
+    } else {
+      console.log("there is no data");
+      return 0;
+    }
+  } catch (error) {
+    // Error retrieving data
+  }
+};
+
+const setData = async (turn: number) => {
+  try {
+    await AsyncStorage.setItem("BEST_TURN", turn.toString());
+  } catch (error) {
+    // Error saving data
+  }
 };
 
 const GameStateContext = createContext<GameState | undefined>(undefined);
@@ -45,6 +70,13 @@ function gameReducer(state: GameState, action: Action): GameState {
         }
       });
       if (strikeCount === 3) {
+        const best = getData();
+        if (!best) {
+          setData(state.totalTurn + 1);
+        } else {
+          if (best > state.totalTurn) {
+          }
+        }
         return {
           ...state,
           correct: true
@@ -90,7 +122,8 @@ export function GameContextProvider({
     target: generateTarget(),
     game: [],
     totalTurn: 1,
-    correct: false
+    correct: false,
+    bestTurn: getData()
   });
 
   return (
