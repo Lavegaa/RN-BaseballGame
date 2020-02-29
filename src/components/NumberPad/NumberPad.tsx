@@ -29,7 +29,7 @@ export default function NumberPad({
       style={[styles.container, { transform: [{ translateY: animatedValue }] }]}
     >
       <View style={styles.modal}>
-        <TouchableHighlight onPress={modalPress}>
+        <TouchableHighlight underlayColor={"white"} onPress={modalPress}>
           <View style={[{ alignSelf: "center" }]}>
             <Entypo
               size={20}
@@ -42,18 +42,21 @@ export default function NumberPad({
       <View style={styles.block}>
         <TouchableHighlight
           style={styles.numbers}
+          underlayColor={"white"}
           onPress={() => numberPress("1")}
         >
           <Text style={styles.numText}>1</Text>
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.numbers}
+          underlayColor={"white"}
           onPress={() => numberPress("2")}
         >
           <Text style={styles.numText}>2</Text>
         </TouchableHighlight>
         <TouchableHighlight
           style={[styles.numbers, styles.last]}
+          underlayColor={"white"}
           onPress={() => numberPress("3")}
         >
           <Text style={styles.numText}>3</Text>
@@ -62,18 +65,21 @@ export default function NumberPad({
       <View style={styles.block}>
         <TouchableHighlight
           style={styles.numbers}
+          underlayColor={"white"}
           onPress={() => numberPress("4")}
         >
           <Text style={styles.numText}>4</Text>
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.numbers}
+          underlayColor={"white"}
           onPress={() => numberPress("5")}
         >
           <Text style={styles.numText}>5</Text>
         </TouchableHighlight>
         <TouchableHighlight
           style={[styles.numbers, styles.last]}
+          underlayColor={"white"}
           onPress={() => numberPress("6")}
         >
           <Text style={styles.numText}>6</Text>
@@ -82,28 +88,39 @@ export default function NumberPad({
       <View style={styles.block}>
         <TouchableHighlight
           style={styles.numbers}
+          underlayColor={"white"}
           onPress={() => numberPress("7")}
         >
           <Text style={styles.numText}>7</Text>
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.numbers}
+          underlayColor={"white"}
           onPress={() => numberPress("8")}
         >
           <Text style={styles.numText}>8</Text>
         </TouchableHighlight>
         <TouchableHighlight
           style={[styles.numbers, styles.last]}
+          underlayColor={"white"}
           onPress={() => numberPress("9")}
         >
           <Text style={styles.numText}>9</Text>
         </TouchableHighlight>
       </View>
       <View style={styles.block}>
-        <TouchableHighlight style={styles.backspace} onPress={backspacePress}>
+        <TouchableHighlight
+          style={styles.backspace}
+          underlayColor={"white"}
+          onPress={backspacePress}
+        >
           <Text style={styles.numText}>지우기</Text>
         </TouchableHighlight>
-        <TouchableHighlight style={styles.submit} onPress={submitPress}>
+        <TouchableHighlight
+          style={styles.submit}
+          underlayColor={"white"}
+          onPress={submitPress}
+        >
           <Text style={styles.numText}>제출</Text>
         </TouchableHighlight>
       </View>

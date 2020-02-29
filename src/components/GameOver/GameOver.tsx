@@ -6,7 +6,7 @@ import {
   Text,
   FlatList
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { Game } from "../../contexts/GameContext";
 
 const Item = ({
@@ -64,21 +64,33 @@ export default function GameOver({
   reset,
   target,
   turn,
-  bestTurn
+  bestTurn,
+  isBest
 }: {
   game: Game[];
   reset: () => void;
   target: number[];
   turn: number;
   bestTurn: number;
+  isBest: boolean;
 }) {
+  console.log("gameover", isBest);
   return (
     <View style={styles.container}>
       <View style={styles.infoBox}>
         <View style={styles.textBox}>
-          <Text style={styles.turn}>
-            {turn}회 배스트 {bestTurn}
-          </Text>
+          <Text style={styles.bestTurn}>최고기록 {bestTurn}회</Text>
+          <View style={styles.tInfoBox}>
+            {isBest && (
+              <Ionicons
+                style={styles.bestIcon}
+                name="ios-trophy"
+                size={50}
+                color="#FFE400"
+              />
+            )}
+            <Text style={styles.turn}>{turn}회</Text>
+          </View>
           <Text style={styles.text}>{target}</Text>
         </View>
       </View>
@@ -126,9 +138,23 @@ const styles = StyleSheet.create({
   textBox: {
     alignContent: "center"
   },
-  turn: {
-    marginTop: 80,
+  bestTurn: {
+    marginTop: 20,
+    marginStart: 125,
+    color: "white",
+    fontSize: 30,
+    fontWeight: "bold"
+  },
+  tInfoBox: {
+    marginTop: 20,
     marginStart: 20,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  bestIcon: {
+    marginEnd: 10
+  },
+  turn: {
     color: "white",
     fontSize: 40,
     fontWeight: "bold"
@@ -155,8 +181,8 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   history: {
-    marginTop: 5,
-    marginBottom: 5,
+    marginTop: 10,
+    marginBottom: 10,
     marginStart: 20,
     fontSize: 20,
     fontWeight: "bold"

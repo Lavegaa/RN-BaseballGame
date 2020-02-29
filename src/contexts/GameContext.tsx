@@ -42,6 +42,10 @@ const setData = async (turn: number) => {
   }
 };
 
+const clearAsyncStorage = async () => {
+  AsyncStorage.clear();
+};
+
 const GameStateContext = createContext<GameState | undefined>(undefined);
 
 type Action = { type: "CHECK"; value: number[] } | { type: "RESET" };
@@ -56,6 +60,11 @@ const generateTarget = (): number[] => {
   }
   return target;
 };
+
+let best = 1000000;
+getData().then(val => {
+  best = val;
+});
 
 function gameReducer(state: GameState, action: Action): GameState {
   switch (action.type) {
@@ -73,32 +82,23 @@ function gameReducer(state: GameState, action: Action): GameState {
         }
       });
       if (strikeCount === 3) {
-        let best = 0;
         let isBest = false;
-        getData()
-          .then(val => {
-            if (!val) {
-              setData(state.totalTurn);
-              isBest = true;
-            } else {
-              if (val > state.totalTurn) {
-                setData(state.totalTurn);
-                best = state.totalTurn;
-                isBest = true;
-              } else {
-                best = val;
-              }
-            }
-          })
-          .then(() => {
-            console.log("return?");
-            return {
-              ...state,
-              correct: true,
-              bestTurn: best,
-              isBest: isBest
-            };
-          });
+        if (!best) {
+          setData(state.totalTurn);
+          isBest = true;
+        } else {
+          if (best > state.totalTurn) {
+            setData(state.totalTurn);
+            best = state.totalTurn;
+            isBest = true;
+          }
+        }
+        return {
+          ...state,
+          correct: true,
+          bestTurn: best,
+          isBest: isBest
+        };
       } else {
         const mystring = parseInt(
           action.value.map(val => val.toString()).join("")
@@ -124,7 +124,8 @@ function gameReducer(state: GameState, action: Action): GameState {
         target: generateTarget(),
         game: [],
         totalTurn: 1,
-        correct: false
+        correct: false,
+        isBest: false
       };
     default:
       return state;

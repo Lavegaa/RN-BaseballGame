@@ -94,20 +94,21 @@ export default function GameTemplate() {
   if (gameState.correct) {
     return (
       <GameOver
-        game={gameState.game}
+        game={gameState.game.reverse()}
         reset={() => dispatch({ type: "RESET" })}
         target={gameState.target}
         turn={gameState.totalTurn}
         bestTurn={gameState.bestTurn}
+        isBest={gameState.isBest}
       />
     );
   } else {
     return (
       <View style={styles.container}>
-        <View style={[{ flex: 1, justifyContent: "center" }]}>
+        <View style={[{ flex: 1, justifyContent: "center", width: "100%" }]}>
           <Text style={styles.text}>
             {gameState.totalTurn}회 {"  "}
-            {value}, {gameState.target}
+            {value}
           </Text>
           {warning === "" || <Text>{warning}</Text>}
         </View>
