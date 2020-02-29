@@ -110,7 +110,7 @@ export default function GameTemplate() {
             {gameState.totalTurn}회 {"  "}
             {value}
           </Text>
-          {warning === "" || <Text>{warning}</Text>}
+          {warning === "" || <Text style={styles.warning}>{warning}</Text>}
         </View>
         <View style={[{ flex: flexValue[0] }]}>
           <NumberList game={gameState.game} />
@@ -141,5 +141,9 @@ const styles = StyleSheet.create({
     fontSize: 50,
     fontWeight: "bold",
     alignSelf: "center"
+  },
+  warning: {
+    alignSelf: "center",
+    color: "white"
   }
 });
