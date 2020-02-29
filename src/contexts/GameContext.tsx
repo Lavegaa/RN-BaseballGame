@@ -14,6 +14,7 @@ type GameState = {
   totalTurn: number;
   correct: boolean;
   bestTurn: number;
+  isBest: boolean;
 };
 
 const getData = async () => {
@@ -28,6 +29,7 @@ const getData = async () => {
     }
   } catch (error) {
     // Error retrieving data
+    console.error(error);
   }
 };
 
@@ -36,6 +38,7 @@ const setData = async (turn: number) => {
     await AsyncStorage.setItem("BEST_TURN", turn.toString());
   } catch (error) {
     // Error saving data
+    console.error(error);
   }
 };
 
@@ -70,17 +73,32 @@ function gameReducer(state: GameState, action: Action): GameState {
         }
       });
       if (strikeCount === 3) {
-        const best = getData();
-        if (!best) {
-          setData(state.totalTurn + 1);
-        } else {
-          if (best > state.totalTurn) {
-          }
-        }
-        return {
-          ...state,
-          correct: true
-        };
+        let best = 0;
+        let isBest = false;
+        getData()
+          .then(val => {
+            if (!val) {
+              setData(state.totalTurn);
+              isBest = true;
+            } else {
+              if (val > state.totalTurn) {
+                setData(state.totalTurn);
+                best = state.totalTurn;
+                isBest = true;
+              } else {
+                best = val;
+              }
+            }
+          })
+          .then(() => {
+            console.log("return?");
+            return {
+              ...state,
+              correct: true,
+              bestTurn: best,
+              isBest: isBest
+            };
+          });
       } else {
         const mystring = parseInt(
           action.value.map(val => val.toString()).join("")
@@ -123,7 +141,8 @@ export function GameContextProvider({
     game: [],
     totalTurn: 1,
     correct: false,
-    bestTurn: getData()
+    bestTurn: 0,
+    isBest: false
   });
 
   return (

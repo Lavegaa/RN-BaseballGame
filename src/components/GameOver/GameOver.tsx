@@ -63,18 +63,22 @@ export default function GameOver({
   game,
   reset,
   target,
-  turn
+  turn,
+  bestTurn
 }: {
   game: Game[];
   reset: () => void;
   target: number[];
   turn: number;
+  bestTurn: number;
 }) {
   return (
     <View style={styles.container}>
       <View style={styles.infoBox}>
         <View style={styles.textBox}>
-          <Text style={styles.turn}>{turn}회</Text>
+          <Text style={styles.turn}>
+            {turn}회 배스트 {bestTurn}
+          </Text>
           <Text style={styles.text}>{target}</Text>
         </View>
       </View>

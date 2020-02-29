@@ -98,6 +98,7 @@ export default function GameTemplate() {
         reset={() => dispatch({ type: "RESET" })}
         target={gameState.target}
         turn={gameState.totalTurn}
+        bestTurn={gameState.bestTurn}
       />
     );
   } else {
